@@ -3,11 +3,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int main(){
-  int fd = open("file.txt", O_RDWR);
-  printf("%d\n", fd);
-  //ssize_t read(int fd, void *buf, size_t count);
-  int *file_content[100];
-  read(fd, file_content,16);
-  printf("file_content: %ls\n", file_content[0]);
+  printf("created file.txt, can write\n");
+  int fd = open("file.txt", O_CREAT | O_WRONLY, 0700);
+  
+  char b[8];
+  printf("fd number is %d\n", fd);
+  
+  printf("write wassup\n");
+  write(fd, "wassup\n", 7);
+  
+  close(fd);
+  printf("closed fd\n");
+  
+  printf("opened fd, can read\n");
+  fd = open("file.txt", O_RDONLY);
+  
+  printf("reading\n");
+  read(fd, b, 7);
+  b[7] = "\0";
+  
+  printf("closed fd\n");
+  close(fd);
+  
+  printf("should print wassup: %s\n", b);
 }
